@@ -61,7 +61,10 @@
 				  </noise>
 				</ray>
 
-				<plugin name="laser" filename="libRayPlugin.so" />
+				<plugin name="laser" filename="libgazebo_ros_laser.so">
+					<topicName>/laser/scan</topicName>
+					<frameName>range_finder</frameName>
+				</plugin>
 				<always_on>1</always_on>
 				<update_rate>30</update_rate>
 				<visualize>true</visualize>
@@ -86,10 +89,20 @@
 				    <stddev>0.007</stddev>
 				  </noise>
 				</camera>
+				<plugin name="camera_plugin" filename="libgazebo_ros_camera.so">
+					<frameName>camera</frameName>
+				</plugin>
 				<always_on>1</always_on>
 				<update_rate>40</update_rate>
 				<visualize>true</visualize>
 		      </sensor>
 		</link>
+		<plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+		      <commandTopic>/capra_smartmotor/cmd_vel</commandTopic>
+		      <odometryTopic>odom</odometryTopic>
+		      <odometryFrame>odom</odometryFrame>
+		      <odometryRate>20.0</odometryRate>
+		      <robotBaseFrame>capra6</robotBaseFrame>
+		</plugin>
 	</model>
 </sdf>
