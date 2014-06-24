@@ -43,7 +43,7 @@
                 <ray>
                     <scan>
                     <horizontal>
-                        <samples>1080</samples>
+                        <samples>540</samples>
                         <resolution>1</resolution>
                         <min_angle>-2.3562</min_angle>
                         <max_angle>2.3562</max_angle>
@@ -62,8 +62,8 @@
                 </ray>
 
                 <plugin name="laser" filename="libgazebo_ros_laser.so">
-                    <topicName>/sensor_msgs/LaserScan</topicName>
-                    <frameName>range_finder</frameName>
+                    <topicName>/scan</topicName>
+                    <frameName>laser</frameName>
                 </plugin>
                 <always_on>1</always_on>
                 <update_rate>30</update_rate>
@@ -101,11 +101,11 @@
         <plugin name="imu" filename="libgazebo_ros_imu.so">
             <bodyName>chassis</bodyName>
             <robotNamespace>capra6</robotNamespace>
-            <topicName>/nav_msgs/imu</topicName>
+            <topicName>/imu_data</topicName>
         </plugin>
         <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
-            <commandTopic>/capra_smartmotor/cmd_vel</commandTopic>
-            <odometryTopic>/nav_msgs/Odometry</odometryTopic>
+            <commandTopic>/cmd_vel</commandTopic>
+            <odometryTopic>/odom</odometryTopic>
             <odometryRate>20.0</odometryRate>
             <robotBaseFrame>capra6</robotBaseFrame>
         </plugin>
