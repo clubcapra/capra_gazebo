@@ -11,35 +11,21 @@
                     </mesh>
                 </geometry>
             </visual>
+            
             <collision name='bas_chassis'>
-                <pose>0.1 0 0.16 0 0 0</pose>
+                <pose>0.1 0 0 0 0 0</pose>
                 <geometry>
                     <box>
-                        <size>1.0875 0.75 0.32</size>
+                        <size>1.0875 0.5 0.2</size>
                     </box>
                 </geometry>
             </collision>
-            <collision name='haut_chassis'>
-                <pose>-0.1 0 0.52 0 0 0</pose>
-                <geometry>
-                    <box>
-                        <size>0.7 0.75 0.4</size>
-                    </box>
-                </geometry>
-            </collision>
-            <collision name='tige'>
-                <pose>0.2 0 1.275 0 0 0</pose>
-                <geometry>
-                    <box>
-                        <size>0.375 0.225 1.20</size>
-                    </box>
-                </geometry>
-            </collision>
+         -->
         </link>
         <link name='range_finder'>
             <gravity>false</gravity>
             <sensor name="laser" type="ray">
-                <pose>0.4 0 0.2 0 0 0</pose>
+                <pose>0.5 0 0.3 0 0 0</pose>
                 <ray>
                     <scan>
                     <horizontal>
