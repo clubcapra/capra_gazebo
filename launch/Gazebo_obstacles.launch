@@ -1,0 +1,13 @@
+<launch>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find capra_gazebo)/worlds/shapes2.world"/>
+         <arg name="gui" value="false" />
+    </include>
+    <node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" args="-file $(find capra_gazebo)/models/capra6/model.sdf -sdf -model capra6" />
+    
+    <node name="simple_move" pkg="capra_ai" type="simple_move.py" />
+    <node name="octomap_server" pkg="octomap_server" type="octomap_server_node" />
+    
+    <remap from="cloud" to="cloud_in" />
+    <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" />
+</launch>
