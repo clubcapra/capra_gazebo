@@ -21,11 +21,11 @@
 
     <joint name="joint1" type="fixed">
         <parent link="base_link" />
-        <child link="laser_link" />
+        <child link="laser" />
         <origin xyz="0.6 0 0.4" rpy="0 0 0" />
     </joint>
         
-    <link name="laser_link">
+    <link name="laser">
         <visual>
             <geometry>
                 <sphere radius="0.1" />
@@ -47,7 +47,7 @@
         <material>Gazebo/Black</material>
     </gazebo>
 
-    <gazebo reference="laser_link">
+    <gazebo reference="laser">
         <gravity>false</gravity>
         <material>Gazebo/Red</material>
 
