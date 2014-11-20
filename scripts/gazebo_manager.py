@@ -59,6 +59,13 @@ class InstanceManager(tornado.websocket.WebSocketHandler):
             r += name + "\n"
         self.write_message(r.strip())
 
+    def get_ports(self, m):
+        if len(m) == 2:
+            if m[1] in self.instances:
+                i = self.instances[m[1]]
+                return "%d %d" % (i.core_port, i.gazebo_port)
+        return "Err"
+
     def list_worlds(self, m):
         rospack = rospkg.RosPack()
         path = rospack.get_path("capra_gazebo") + "/worlds"
@@ -93,6 +100,7 @@ class InstanceManager(tornado.websocket.WebSocketHandler):
     def on_message(self, msg):
         actions = {'list': self.list,
                    'list_worlds': self.list_worlds,
+                   'get_ports': self.get_ports,
                    'create': self.create,
                    'kill': self.kill}
         m = msg.split()
