@@ -38,7 +38,7 @@ class Instance:
     def kill(self):   
         self._setenv()
         rosnode.kill_nodes(['gazebo'])
-        time.sleep(2)
+        time.sleep(1)
         self.proc.terminate()
 
 
@@ -57,7 +57,7 @@ class InstanceManager(tornado.websocket.WebSocketHandler):
         r = ""
         for name, instance in self.instances.items():
             r += name + "\n"
-        self.write_message(r.strip())
+        return r.strip()
 
     def get_ports(self, m):
         if len(m) == 2:
@@ -72,7 +72,7 @@ class InstanceManager(tornado.websocket.WebSocketHandler):
         r = ""
         for w in [f[:-len(".world")] for f in listdir(path) if f.endswith(".world")]:
             r += w + "\n"
-        self.write_message(r.strip())
+        return r.strip()
 
     def create(self, m):
         self.create_lock.acquire()
@@ -84,18 +84,19 @@ class InstanceManager(tornado.websocket.WebSocketHandler):
                     p1, p2 = self.get_free_ports()
                     self.instances[name] = Instance(int(p1), int(p2), world)
                     self.instances[name].run()
-                    self.write_message("%d %d" % (p1, p2))
+                    return "%d %d" % (p1, p2)
                     self.create_lock.release()
                     return
         self.create_lock.release()
-        self.write_message("Err")
+        return "Err"
 
     def kill(self, m):
         if len(m) == 2:
             if m[1] in self.instances:
                 self.instances[m[1]].kill()
                 del(self.instances[m[1]])
-                self.write_message("OK")
+                return "OK"
+        return "Err"
 
     def on_message(self, msg):
         actions = {'list': self.list,
@@ -105,7 +106,7 @@ class InstanceManager(tornado.websocket.WebSocketHandler):
                    'kill': self.kill}
         m = msg.split()
         if len(m) > 0 and m[0] in actions:
-            actions[m[0]](m)
+            self.write_message(actions[m[0]](m))
 
     def on_close(self):
         print "WebSocket closed"

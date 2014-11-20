@@ -34,6 +34,7 @@ def menu(instances):
 if __name__ == "__main__":
     ws = websocket.create_connection("ws://192.168.1.132:8888/ws")
     instances = list_instances()
+    print request('get_ports test1')
     if len(instances) > 0:
         menu(instances)
     #print request(ws, 'kill test4')
