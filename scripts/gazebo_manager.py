@@ -84,9 +84,8 @@ class InstanceManager(tornado.websocket.WebSocketHandler):
                     p1, p2 = self.get_free_ports()
                     self.instances[name] = Instance(int(p1), int(p2), world)
                     self.instances[name].run()
-                    return "%d %d" % (p1, p2)
                     self.create_lock.release()
-                    return
+                    return "%d %d" % (p1, p2)
         self.create_lock.release()
         return "Err"
 

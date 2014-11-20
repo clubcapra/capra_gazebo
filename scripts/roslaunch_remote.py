@@ -6,9 +6,38 @@ def request(req):
     ws.send(req)
     return ws.recv() 
 
+
 def list_instances():
     global ws
     return request('list').split()
+
+
+def create_instance():
+    global ws
+    name = ""
+    world = ""
+
+    while not name:
+        name = "".join(raw_input("Name: ").split())
+
+    while not world:
+        world = "".join(raw_input("World: ").split())
+
+    r = request('create %s %s' % (name, world))
+    if r == "Err":
+        return None
+    else:
+        return [int(p) for p in r.split()]
+
+
+def get_ports(instance):
+    global ws
+    ports = request('get_ports %s' % instance)
+    if ports == "Err":
+        return None
+    else:
+        return [int(p) for p in ports.split()]
+
 
 def menu(instances):
     while True:
@@ -21,11 +50,13 @@ def menu(instances):
         if choice.isdigit():
             choice = int(choice)
             if choice > 0 and choice <= len(instances):
-                print "OK"
-                return
+                ports = get_ports(instances[choice - 1])
+                if ports is not None:
+                    return ports
             elif choice == len(instances) + 1:
-                print "Create"
-                return
+                ports = create_instance()
+                if ports is not None:
+                    return ports
             elif choice == len(instances) + 2:
                 print "Kill"
                 return
@@ -34,11 +65,7 @@ def menu(instances):
 if __name__ == "__main__":
     ws = websocket.create_connection("ws://192.168.1.132:8888/ws")
     instances = list_instances()
-    print request('get_ports test1')
     if len(instances) > 0:
         menu(instances)
-    #print request(ws, 'kill test4')
-    #print request(ws, 'create test2 capra')
-    #print request(ws, 'kill test1')
 
     ws.close()
