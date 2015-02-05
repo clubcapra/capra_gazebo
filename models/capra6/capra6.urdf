@@ -90,6 +90,29 @@
             <odometryRate>20.0</odometryRate>
             <robotBaseFrame>base_footprint</robotBaseFrame>
         </plugin>
+
+        <!-- see http://wiki.ros.org/hector_gazebo_plugins for gps and imu plugins-->
+
+        <plugin name="gazebo_ros_gps" filename="libhector_gazebo_ros_gps.so" >
+            <offset x="0" y="0" z="0" />
+            <gaussianNoise x="0" y="0" z="0" />
+            <referenceLatitude>45.501689</referenceLatitude>
+            <referenceLongitude>-73.567256</referenceLongitude>
+            <referenceHeading>0</referenceHeading>
+            <bodyName>base_link</bodyName>
+            <topicName>gps_sim</topicName>
+            <updateRate>100</updateRate>
+        </plugin>
+
+        <plugin name="gazebo_ros_imu" filename="libhector_gazebo_ros_imu.so">
+            <bodyName>base_link</bodyName>
+            <topicName>imu_sim</topicName>
+            <updateRate>100</updateRate>
+            <headingGaussianNoise>0.0</headingGaussianNoise>
+            <headingOffset>0.0</headingOffset>
+        </plugin>
+
     </gazebo>
+
 
 </robot>
